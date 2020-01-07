@@ -36,4 +36,11 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /*Add on: database/migrations/2020_01_03_011559_create_posts_table.php
+        '$table->integer('user_id')->unsigned();'
+    */ 
+    public function post(){
+        return $this->hasOne('App\Post'); //looks for 'users_id' columns
+
 }

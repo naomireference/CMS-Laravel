@@ -247,10 +247,10 @@ Route::get('/', function () {
             });
     
     XI. Deleting a record permanently
+            Route::get('/forcedelete', function(){
+                Post::onlyTrashed()->where('is_admin',0)->forceDelete();
+            });
 
 */
 
 //---------------------------------------------------------------------------------------------------
-Route::get('/forcedelete', function(){
-    Post::onlyTrashed()->where('is_admin',0)->forceDelete();
-});
