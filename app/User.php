@@ -42,5 +42,5 @@ class User extends Authenticatable
     */ 
     public function post(){
         return $this->hasOne('App\Post'); //looks for 'users_id' columns
-
+    }
 }
