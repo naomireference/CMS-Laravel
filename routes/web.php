@@ -278,6 +278,38 @@ Route::get('/', function () {
                 // return User::find($id)->post
                 return User::find($id)->post->title;
             });
+    
+    II. The Inverse Relationship for One to One
+            -> pulls out the user of a post
+            //Step 1:
+            -> Add this code on 'app/Post.php':
+                public function user(){
+                    return $this->belongsTo('App\User');
+                }
+
+            //Route:
+            Route::get('/post/{id}/user', function($id){
+                return Post::find($id)->user->name;
+            });
+    
+    III. One to Many Relationship
+            //Step 1:
+            -> Add this code on 'app/User.php':
+                public function posts(){
+                    return $this->hasMany('App\Post');
+                }
+            
+            //Route:
+            Route::get('/posts', function(){
+                $user = User::find(1);
+
+                foreach($user->posts as $post){
+                    echo $post->title ."</br>";
+                }
+            });
+
+    IV. Many to Many Relationship
+
 */
 //---------------------------------------------------------------------------------------------------
 

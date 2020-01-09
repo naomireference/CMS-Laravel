@@ -40,7 +40,14 @@ class User extends Authenticatable
     /*Add on: database/migrations/2020_01_03_011559_create_posts_table.php
         '$table->integer('user_id')->unsigned();'
     */ 
+
+    /*For One to One relationship */
     public function post(){
         return $this->hasOne('App\Post'); //looks for 'users_id' columns
+    }
+
+    /*For One to Many relationship */
+    public function posts(){
+        return $this->hasMany('App\Post');
     }
 }
