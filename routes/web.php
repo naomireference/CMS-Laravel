@@ -297,7 +297,7 @@ Route::get('/', function () {
             -> Add this code on 'app/User.php':
                 public function posts(){
                     return $this->hasMany('App\Post');
-                }
+                } 
             
             //Route:
             Route::get('/posts', function(){
@@ -309,7 +309,52 @@ Route::get('/', function () {
             });
 
     IV. Many to Many Relationship
+            //Step 1:
+            -> Create migration and model for 'Role':
+                php artisan make:model Role -m
+                    -> result: Model created successfully.
+                               Created Migration: 2020_01_09_080015_create_roles_table
+
+            //Step 2:
+            -> Create pivot table combining user and role table:
+                php artisan make:migration create_users_roles_table --create=role_user
+                    -> result: Created Migration: 2020_01_09_080359_create_users_roles_table
+            
+            //Step 3:
+            -> Add this code on 'database/migrations/2020_01_09_080015_create_roles_table.php':
+                $table->string('name');
+
+            //Step 4:
+            -> Add this code on 'database/migrations/2020_01_09_080359_create_users_roles_table.php':
+                $table->integer('user_id');
+                $table->integer('role_id');
+            
+            //Step 5:
+            -> start migrating:
+                php artisan migrate
+            
+            //Step 6:
+            -> Add this code to 'app/User.php':
+                public function roles(){
+                    return $this->belongsToMany('App\Role');
+                }
+            
+            //Route:
+            -> First Way:
+                Route::get('/user/{id}/role', function($id){
+                    $user = User::find($id);
+                    foreach($user->roles as $role){
+                        echo $role->name;
+                    }
+                });
+            -> Second Way:
+                Route::get('/user/{id}/role', function($id){
+                    $user = User::find($id)->roles()->orderBy('id', 'desc')->get();
+                    return $user;
+                });
+
+                
+
 
 */
 //---------------------------------------------------------------------------------------------------
-

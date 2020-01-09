@@ -50,4 +50,10 @@ class User extends Authenticatable
     public function posts(){
         return $this->hasMany('App\Post');
     }
+
+    /*For Many to Many relationship */
+    public function roles(){
+        return $this->belongsToMany('App\Role');
+    }
+
 }
