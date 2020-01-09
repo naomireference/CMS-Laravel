@@ -1,6 +1,7 @@
 <?php
 
 use App\Post;
+use App\User;
 use Illuminate\Support\Facades\DB;
 
 /*
@@ -254,3 +255,29 @@ Route::get('/', function () {
 */
 
 //---------------------------------------------------------------------------------------------------
+
+
+
+
+//---------------------------------------------------------------------------------------------------
+//ELOQUENT Relationships
+/*
+    I. One to One Relationship
+            //Step 1:
+            ->  Add on database/migrations/2020_01_03_011559_create_posts_table.php:
+              '$table->integer('user_id')->unsigned();'
+            
+            //Step 2:
+            ->  Add on app/User.php
+                public function post(){
+                    return $this->hasOne('App\Post'); //looks for 'users_id' columns
+                }
+
+            //Route:
+            Route::get('/user/{id}/post', function($id){
+                // return User::find($id)->post
+                return User::find($id)->post->title;
+            });
+*/
+//---------------------------------------------------------------------------------------------------
+
