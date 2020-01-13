@@ -353,6 +353,25 @@ Route::get('/', function () {
                     return $user;
                 });
 
+    V. Querying/Accessing the intermediate table (pivot)
+            //Step 1:
+            -> Update code in 'app/User.php' to include 'created_at' column:
+                public function roles(){
+                    return $this->belongsToMany('App\Role')->withPivot('created_at');
+                }
+
+            //Route:
+                Route::get('user/pivot', function(){
+                    $user = User::find(1);
+
+                    foreach($user->roles as $role){
+                        return $role->pivot->created_at;
+                    }
+                });
+
+    VI. Has many through relation
+            //Step 1: 
+            -> Create 'countr
                 
 
 
