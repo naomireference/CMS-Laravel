@@ -378,11 +378,11 @@ Route::get('/', function () {
                 -> php artisan make:migration add_country_id_column_to_users --table=users
 
             //Step 2:
-            -> Add this code on 'database/2020_01_15_004955_add_country_id_column_to_users.php' for adding 'country_id' to 'users' table
+            -> Add this code on 'database/migrations/2020_01_15_004955_add_country_id_column_to_users.php' for adding 'country_id' to 'users' table
                     $table->integer('country_id');
             
             //Step 3:
-            -> Add this code on 'database/2020_01_15_004728_create_countries_table.php' for adding 'name' on 'countries' table
+            -> Add this code on 'database/migrations/2020_01_15_004728_create_countries_table.php' for adding 'name' on 'countries' table
                     $table->string('name');
 
             //Step 4:
@@ -405,7 +405,68 @@ Route::get('/', function () {
                     }
                 });
 
-                
+    VII. Polymorphic relation
+            -> allow a model to belong to more than one other model on a single association
+
+            //Step 1:
+            -> Create migration
+                php artisan make:model Photo -m
+            
+            //Step 2:
+            -> Add code on 'database/migrations/2020_01_15_024142_create_photos_table.php':
+                $table->string('path');
+                $table->integer('imageable_id');
+                $table->string('imageable_type');
+
+            //Step 3:
+            -> Start Migrating
+                php artisan migrate
+
+            //Step 4:
+            -> Update this code on 'database/migrations/2020_01_03_011559_create_posts_table.php':
+                $table->integer('user_id')->unsigned();
+
+            //Step 5:
+            -> Refresh migration and fill data.
+                php artisan migrate:refresh
+            
+            //Step 6:
+            -> Add this code to 'app/Photo.php':
+                public function imageable(){
+                    return $this->morphTo();
+                }
+
+            //Step 7:
+            -> Add this code to 'app/Photo.php' and 'app/User.php':
+                public function photos(){
+                    return $this->morphMany('App\Photo', 'imageable');
+                }
+            
+            //Route:
+                Route::get('/user/photos', function(){
+                    $user = User::find(1);
+
+                    foreach($user->photos as $photo){
+                        return $photo->path;
+                    }
+                });
+
+                Route::get('/post/photos', function(){
+                    $post = Post::find(1);
+
+                    foreach($post->photos as $photo){
+                        echo $photo->path . "<br>";
+                    }
+                });
+
+                Route::get('/post/{id}/photos', function($id){
+                    $post = Post::find($id);
+
+                    foreach($post->photos as $photo){
+                        echo $photo. "<br>";
+                    }
+                });
 */
 //---------------------------------------------------------------------------------------------------
 
+    
