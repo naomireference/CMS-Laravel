@@ -2,6 +2,7 @@
 
 use App\Post;
 use App\User;
+use App\Country;
 use Illuminate\Support\Facades\DB;
 
 /*
@@ -388,10 +389,23 @@ Route::get('/', function () {
             -> Start Migration
                 php artisan migrate
 
+            //Step 5:
+            -> Add on app/Country.php:
+                public function posts(){
+                    return $this->hasManyThrough('App\Post', 'App\User');
+                }
+
+            //Route:
+                Route::get('/user/country', function(){
+                    //$country = Country::find(<country_id>);
+                    $country = Country::find(4);
+
+                    foreach($country->posts as $post){
+                        return $post->title;
+                    }
+                });
+
                 
 */
 //---------------------------------------------------------------------------------------------------
 
-Route::get('/user/country', function(){
-
-});
