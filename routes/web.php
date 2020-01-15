@@ -370,10 +370,28 @@ Route::get('/', function () {
                 });
 
     VI. Has many through relation
+            -> Allows us to provide a convenient shortcut for access distant relationships via intermediary relation
             //Step 1: 
-            -> Create 'countr
+            -> Create migration for 'countries' table
+                -> php artisan make:model Country -m
+                -> php artisan make:migration add_country_id_column_to_users --table=users
+
+            //Step 2:
+            -> Add this code on 'database/2020_01_15_004955_add_country_id_column_to_users.php' for adding 'country_id' to 'users' table
+                    $table->integer('country_id');
+            
+            //Step 3:
+            -> Add this code on 'database/2020_01_15_004728_create_countries_table.php' for adding 'name' on 'countries' table
+                    $table->string('name');
+
+            //Step 4:
+            -> Start Migration
+                php artisan migrate
+
                 
-
-
 */
 //---------------------------------------------------------------------------------------------------
+
+Route::get('/user/country', function(){
+
+});
